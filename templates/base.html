@@ -1,28 +1,19 @@
 
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-{% load static %}
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <title>index</title>
 
-  <!-- Favicons -->
-  <!-- <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon"> -->
-
-  <!-- Bootstrap core CSS -->
   <link href="{%static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{%static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="{%static 'css/zabuto_calendar.css' %}">
   <link rel="stylesheet" type="text/css" href="{%static 'lib/gritter/css/jquery.gritter.css' %}" />
   <link href="{%static 'css/style.css'%}" rel="stylesheet">
   <link href="{%static 'css/style-responsive.css' %}" rel="stylesheet">
-  <link href="{%static 'lib/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
   <link href="{%static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
   <link href="{%static 'css/style.css' %}" rel="stylesheet">
   <link href="{%static 'css/style-responsive.css' %}" rel="stylesheet">
@@ -38,7 +29,7 @@
       <a href="index.html" class="logo"><b>BY<span>IOD</span></b></a>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="{% url 'login' %}">Logout</a></li>
+          <li><a class="logout" href="{%url 'logout' %}">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -79,13 +70,11 @@
     </aside>
 
 
-    {% block content%}
+    {% block content %}
 
 
     {% endblock %} 
    
-  {% comment %} </section> {% endcomment %}
-
 </section>
   
     <script type="application/javascript">
