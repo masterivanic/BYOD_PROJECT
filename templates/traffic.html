@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <title>index</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{%static 'lib/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+  <!--external css-->
+  <link href="{%static 'lib/font-awesome/css/font-awesome.css' %} " rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{%static 'css/style.css' %}" rel="stylesheet">
+  <link href="{%static 'css/style-responsive.css' %} " rel="stylesheet">
+</head>
+
+<body>
+  <section id="container">
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+      <!--logo start-->
+      <a href="{% url 'home' %}" class="logo"><b>BY<span>IOD</span></b></a>
+      <div class="nav notify-row" id="top_menu">
+       
+        <ul class="nav top-menu">
+     
+        </ul>
+        <!--  notification end -->
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li>
+            <a class="logout" href="/logout/">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <li class="mt">
+            <a class="active" href="{% url 'home' %}">
+              <i class="fa fa-dashboard"></i>
+              <span>Dashboard</span>
+              </a>
+          </li>
+
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-tasks"></i>
+              <span>DEVICES</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'device' %}">Device list</a></li>
+              <li><a href="{% url 'user_device' %}">User's device</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-users"></i>
+              <span>USERS</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'users' %}">users list</a></li>
+            </ul>
+          </li>
+            <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fas fa-network-wired"></i>
+              <span>NETWORK</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'scan' %}">scan</a></li>
+              <li><a href="{% url 'network' %}">network traffic</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <!--sidebar end-->
+    
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> DEVICES </h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> DEVICES INFORMATIONS</h4>
+              <hr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>IP Address</th>
+                    <th>Mac Address </th>
+                    <th>Hostname</th>
+                    <th>Operating System</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for computer in computers %}
+                  <tr>
+                    <td>{{computer.id}}</td>
+                    <td>{{computer.ip_address}}</td>
+                    <td>{{computer.mac_address}}</td>
+                    <td>{{computer.hostname}}</td>
+                    <td>{{computer.os}}</td>
+                    <td>
+                      <a href="{% url 'associate' computer.id %}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                      <a href="{% url 'analyse' computer.id %}" class="btn btn-success btn-xs">scan device</a>
+                      <a href="{%url 'malware' computer.id %}" class="btn btn-danger btn-xs">malware detect</a>
+                      <a href="{% url 'traffic' computer.id %}" class="btn btn-warning btn-xs">check traffic</a>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+                {% if messages %}
+                    <div class="alert alert-success" style="margin-top:15px;">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            {% endif %}
+            </div>
+          </div>
+        
+        </div>
+      
+      </section>
+    </section>
+ 
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="{%static 'lib/jquery/jquery.min.js' %}"></script>
+  <script src="{%static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script class="include" type="text/javascript" src="{%static 'lib/jquery.dcjqaccordion.2.7.js' %} "></script>
+  <script src="{%static 'lib/jquery.scrollTo.min.js' %} "></script>
+  <script src="{%static 'lib/jquery.nicescroll.js' %}" type="text/javascript"></script>
+  <script src="{%static 'lib/common-scripts.js' %}"></script>
+  <!--script for this page-->
+  
+</body>
+
+</html>

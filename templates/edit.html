@@ -1,0 +1,152 @@
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <title>index</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{%static 'lib/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+  <!--external css-->
+  <link href="{%static 'lib/font-awesome/css/font-awesome.css' %} " rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{%static 'css/style.css' %}" rel="stylesheet">
+  <link href="{%static 'css/style-responsive.css' %} " rel="stylesheet">
+</head>
+
+<body>
+  <section id="container">
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+      <!--logo start-->
+      <a href="{% url 'home' %}" class="logo"><b>BY<span>IOD</span></b></a>
+      <div class="nav notify-row" id="top_menu">
+       
+        <ul class="nav top-menu">
+     
+        </ul>
+        <!--  notification end -->
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li>
+            <a class="logout" href="/logout/">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <li class="mt">
+            <a class="active" href="{% url 'home' %}">
+              <i class="fa fa-dashboard"></i>
+              <span>Dashboard</span>
+              </a>
+          </li>
+
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-tasks"></i>
+              <span>DEVICES</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'device' %}">Device list</a></li>
+              <li><a href="{% url 'user_device' %}">User's device</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-users"></i>
+              <span>USERS</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'users' %}">users list</a></li>
+            </ul>
+          </li>
+            <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fas fa-network-wired"></i>
+              <span>NETWORK</span>
+              </a>
+            <ul class="sub">
+              <li><a href="{% url 'scan' %}">scan</a></li>
+              <li><a href="{% url 'network' %}">network traffic</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <!--sidebar end-->
+    
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> EDIT INFORMATIONS </h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> EDIT</h4>
+              <hr>
+                    
+            <div class="container" id="id01">
+            <div class="col-md-10 offset-md-1 mt-5">
+                <div class="jumbotron">
+                    <form action="" method="POST" enctype='multipart/form-data' autocomplete='off'>
+                        {% csrf_token %}
+                        {{form.name | as_crispy_field}}
+                        {{form.email | as_crispy_field}}
+                        {{form.department | as_crispy_field}}
+                        
+                        <div class="row">
+                            <div class="div col-md-6">
+                                <button type="submit" class="btn btn-success btn-block btn-lg"> <i class='fas fa-database'></i> Submit</button>
+                            </div>
+                            <div class="div col-md-6">
+                                <a href="{% url 'users' %}" class="btn btn-primary btn-block btn-lg">Go back</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                       {% if messages %}
+                    <div class="alert alert-success" style="margin-top:15px;">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            {% endif %}
+            </div>
+        </div>
+            </div>
+          </div>
+        
+        </div>
+       
+      </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="{%static 'lib/jquery/jquery.min.js' %}"></script>
+  <script src="{%static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script class="include" type="text/javascript" src="{%static 'lib/jquery.dcjqaccordion.2.7.js' %} "></script>
+  <script src="{%static 'lib/jquery.scrollTo.min.js' %} "></script>
+  <script src="{%static 'lib/jquery.nicescroll.js' %}" type="text/javascript"></script>
+  <script src="{%static 'lib/common-scripts.js' %}"></script>
+  <!--script for this page-->
+  
+</body>
+
+</html>
