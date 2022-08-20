@@ -1,6 +1,5 @@
-from threading import local
-from django.db.models.expressions import F
-from django.shortcuts import redirect, render, HttpResponseRedirect, resolve_url
+
+from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -13,13 +12,16 @@ import time
 import folium
 import geocoder
 from json import dumps
+import enum
 
-
-from .window import InterfaceAPP
-from tkinter import *
-from tkinter.messagebox import showinfo
 
 # Create your views here.
+
+class HttpMethod(enum.Enum):
+    Post = "POST"
+    Get = "Get"
+    Put = "PUT"
+    Delete = "DELETE"
 
 
 @login_required
@@ -61,7 +63,7 @@ def ip_results(request):
 
 
 def edit_owners(request, id=0):
-    if request.method == 'GET':
+    if request.method == HttpMethod['Get']:
         if id == 0:
             form = OwnerForm()
         else:
@@ -84,7 +86,7 @@ def edit_owners(request, id=0):
 
 
 def associate_device(request, id=0):
-    if request.method == 'GET':
+    if request.method == HttpMethod['Get']:
         if id == 0:
             form = DeviceForm()
         else:
@@ -125,7 +127,7 @@ def delete_user(request, id):
         user = Owner.objects.get(pk=id)
         user.delete()
     except Owner.DoesNotExist:
-        raise Http404
+        raise Http404("Not found")
     return redirect("/home/users/")
 
 
@@ -134,7 +136,7 @@ def afterLogin(request):
 
 
 def login_option(request):
-    if request.method == 'POST':
+    if request.method == HttpMethod['Post']:
         username,  password = request.POST.get(
             'username', False), request.POST.get('password', False)
         user = authenticate(username=username, password=password)
@@ -157,7 +159,7 @@ def network_scan(request):
     entries.delete()
 
     tab_adresses, device_info = [], []
-    if request.method == 'POST':
+    if request.method == HttpMethod['Post']:
         ip = request.POST.get('ip', False)
         adresses = DetectNetwork().scan(ip)
         if adresses:
@@ -273,7 +275,7 @@ def detect_malware(request, id):
         result = DetectNetwork().malware_detect(device_ip)
         tab_results.append(result)
     except Device.DoesNotExist:
-        raise Http404
+        raise Http404("Not Found")
 
     return render(request, 'analyse_result.html', locals())
 

@@ -20,7 +20,7 @@
                                                placeholder="enter ip/mac address">
                                         <br>
                                     </div>
-                                    <input class="btn btn-primary" value="scan">
+                                    <input type="submit" class="btn btn-primary" value="scan">
                                 </form>
                                 <form method="POST" action="{% url 'by_ip' %}">
                                     {% csrf_token %}

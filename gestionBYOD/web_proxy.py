@@ -1,12 +1,15 @@
+from multiprocessing.sharedctypes import Value
 import socket
 import select
 import time
 import sys
-from scapy.all import *
+import logging
+import json
+# from scapy.all import *
 
 buffer_size = 4096
 delay = 0.0001
-forward_to = ('google.com', 80) # remote server to connect to
+forward_to = ('google.com', 80)  # remote server to connect to
 
 
 class Forward:
@@ -21,7 +24,9 @@ class Forward:
             print(e)
             return False
 
+
 class TheServer:
+
     input_list = []
     channel = {}
 
@@ -33,6 +38,7 @@ class TheServer:
         self.server.listen(200)
 
     def main_loop(self):
+        print("server launching.........")
         self.input_list.append(self.server)
         while 1:
             time.sleep(delay)
@@ -78,16 +84,27 @@ class TheServer:
         del self.channel[out]
         del self.channel[self.s]
 
+    def force_decode(self, string, codecs=['utf8', 'cp1252']):
+        for i in codecs:
+            try:
+                return string.decode(i)
+            except UnicodeDecodeError:
+                pass
+        logging.warn("cannot decode url %s" % ([string]))
+
     def on_recv(self):
         data = self.data
+        encod = str(data, 'ISO-8859-1')
+        print(encod)
+
         # here we can parse and/or modify the data before send forward
-        print(data)
+        # print(json.dumps(data, indent=2))
         self.channel[self.s].send(data)
 
 
 if __name__ == '__main__':
-    proxy = IP(dst="0.0.0.0").src
-    server = TheServer(proxy, 33333)
+    # proxy = IP(dst="0.0.0.0").src
+    server = TheServer("192.168.140.211", 33333)
     try:
         server.main_loop()
     except KeyboardInterrupt:
